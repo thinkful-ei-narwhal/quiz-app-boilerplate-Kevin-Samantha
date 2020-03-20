@@ -11,12 +11,90 @@
   <link href="app.css" rel="stylesheet" type="text/css" />
 </head>
 
+<!----------------------------- Start Page ----------------------------->
+
 <body>
-  <header>
-    <h1>The name of your quiz</h1>
-  </header>
-  <main></main>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.js" crossorigin="anonymous"></script>
+  <div class = 'start-page'>
+    <section class = 'intro'>
+      <h1>It's Movie Trivia Time!</h1>
+      <h2>Are You Ready?</h2>
+    </header>
+    <input class = 'submit-button' type="submit" value="Let's Go!">
+  </div>
+
+<!---------------------------- Question Page ---------------------------->
+  
+  <div class = 'question-page'>
+    <header class = question-status>
+      <h2 class = 'question-number'>Question Number 1 Out Of 5</h2>
+      <section class = 'correct/incorrect'>
+        <h3 class = 'correct'>Correct: #</h3>
+        <h3 class = 'incorrect'>Incorrect: #</h3>
+      </section>
+    </header>
+    <p>Example Question</p>
+    <form action="">
+      <input type="radio" id="choice1">
+      <label for="choice1">Choice 1</label>
+
+      <input type="radio" id="choice1">
+      <label for="choice1">Choice 1</label>
+
+      <input type="radio" id="choice1">
+      <label for="choice1">Choice 1</label>
+
+      <input type="radio" id="choice1">
+      <label for="choice1">Choice 1</label>
+
+      <input class = 'submit-button' type="submit" value="Check Answer">
+    </form>
+  </div>
+<!---------------------------- Correct Page ---------------------------->
+
+  <div class = 'correct-page'>
+    <h2>Correct!</h2>
+    <img class = 'correct-image' src="img.jpg" alt="congratulatory-image">
+
+    <section class = 'correct/incorrect'>
+      <h3 class = 'correct'>Correct: #</h3>
+      <h3 class = 'incorrect'>Incorrect: #</h3>
+    </section>
+
+    <input class = 'submit-button' type= 'submit'
+      value= "Next Question Please!">
+  </div>
+  
+<!--------------------------- Incorrect Page --------------------------->
+
+  <div class = 'incorrect-page'>
+    <h2>Incorrect!</h2>
+    <img class = 'incorrect-image' src="img.jpg" alt="image-of-failure">
+    
+    <section class = 'correct/incorrect'>
+      <h3 class = 'correct'>Correct: #</h3>
+      <h3 class = 'incorrect'>Incorrect: #</h3>
+    </section>
+
+    <input class = 'submit-button' type= 'submit'
+      value= "Next Question Please!">
+  </div>
+
+<!--------------------------- Finished Page ---------------------------->
+
+  <div class = 'finish-page'>
+    <h2>You Finished!</h2>
+    
+    <section class = 'results'>
+      <h3>Results:</h3>
+      <h4 class = 'correct'>Correct: #</h4>
+      <h4 class = 'incorrect'>Incorrect: #</h4>
+    </section>
+
+    <input class = 'submit-button' type= 'submit'
+      value= "Let's Go Again!">
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 
