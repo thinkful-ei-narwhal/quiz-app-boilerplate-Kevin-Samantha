@@ -1,31 +1,6 @@
-/*Technical requirements:
- * 
- * Your app should include a render() function, that regenerates the view each time the store is updated. 
- * See your course material, consult your instructor, and reference the slides for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
- * 
- */
-
-/********** TEMPLATE GENERATION FUNCTIONS **********/
-
-// These functions return HTML templates
-
-/********** RENDER FUNCTION(S) **********/
-
-// This function conditionally replaces the contents of the <main> tag based on the state of the store
-
-/********** EVENT HANDLER FUNCTIONS **********/
-
-// These functions handle events (submit, click, etc)
-
 'use strict';
 
-const STORE = {
+let STORE = {
   questions: [
     {
       question: 'Who is the director of Lord of the Rings?',
@@ -134,7 +109,7 @@ function generateStartPage() {
         <h1>It's Movie Trivia Time!</h1>
         <h2>Are You Ready?</h2>
       </section>
-      <button class = type="submit">Let's Go!</button>
+      <button type="button">Let's Go!</button>
     </div>`;
 }
 
@@ -149,7 +124,7 @@ function generateCorrectPage() {
         <h3 class = 'incorrect'>Incorrect: #</h3>
       </section>
 
-      <button type="submit">Next Question Please!</button>
+      <button type="button">Next Question Please!</button>
     </div>`;
 }
 
@@ -169,7 +144,7 @@ function generateIncorrectPage() {
         <h3 class = 'incorrect'>Incorrect: #</h3>
       </section>
 
-      <input class = 'submit-button' type= 'submit' value= "Next Question Please!">
+      <button type="button">Next Question Please!</button>
     </div>`;
 }
 
@@ -184,8 +159,7 @@ function generateFinishPage() {
         <h4 class = 'incorrect'>Incorrect: #</h4>
       </section>
 
-      <input class = 'submit-button' type= 'submit'
-        value= "Let's Go Again!">
+      <button type="button">Let's Go Again!</button>
     </div>`;
 }
 
@@ -200,8 +174,8 @@ function generateQuestionPage() {
         </section>
       </header>
       <p class = 'question'>Example Question</p>
-      <form action="">
-
+      
+      <section class = 'answer-options'>
         <input type="radio" id="choice1" name="answer" value="choice1">
         <label for="choice1">Choice 1</label>
 
@@ -213,10 +187,9 @@ function generateQuestionPage() {
 
         <input type="radio" id="choice4" name="answer" value="choice4">
         <label for="choice4">Choice 4</label>
-        
+      </section>
 
-        <button type="submit">Check Answer</button>
-      </form>
+      <button type="button">Check Answer</button>
     </div>`;
 }
 
@@ -227,9 +200,9 @@ function generateQuestionPage() {
 function handleStartButton() {
   $('.start-page').on('click', event => {
     event.preventDefault();
-    console.log('handleStartButton ran');
     STORE.quizStarted = true;
     STORE.questionNumber ++;
+    console.log('handleStartButton ran');
     renderQuiz();
   });
 }
@@ -237,7 +210,8 @@ function handleStartButton() {
 function handleCheckAnswer() {
   $('.question-page').on('click', event => {
     event.preventDefault();
-    console.log('handleCheckAnswer ran');
+    let chosenAnswer = $('input[name="genderS"]:checked').val();
+    console.log(STORE);
   });
 }
 
@@ -245,11 +219,12 @@ function handleNextQuestion() {
   $('.check-answer').on('submit', event => {
     event.preventDefault();
     console.log('handleNextQuestion ran');
+    renderQuiz();
   });
 }
 
 function handleGoAgain() {
-  $('.finish-page').on('submit', event => {
+  $('.finish-page').on('click', event => {
     event.preventDefault();
     console.log('handleGoAgain ran');
     STORE.quizStarted = false;
@@ -264,6 +239,7 @@ function handleGoAgain() {
 // This block renders the page and primes the event handlers --------------------------------------------------------------------------------------------------------------------------------------------------
 
 function renderQuiz() {
+  console.log(STORE);
   if (STORE.quizStarted === false) {
     $('body').html(generateStartPage());
     return;
@@ -288,17 +264,35 @@ function handleQuizApp() {
   handleCheckAnswer();
   handleNextQuestion();
   handleGoAgain();
-  console.log('handleQuizApp ran');
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 $(handleQuizApp);
 
-function change() {
-  STORE.quizStarted = true;
-  console.log('change');
-};
-
-change();
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*Technical requirements:
+ * 
+ * Your app should include a render() function, that regenerates the view each time the store is updated. 
+ * See your course material, consult your instructor, and reference the slides for more details.
+ *
+ * NO additional HTML elements should be added to the index.html file.
+ *
+ * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
+ *
+ * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
+ * 
+ */
+
+/********** TEMPLATE GENERATION FUNCTIONS **********/
+
+// These functions return HTML templates
+
+/********** RENDER FUNCTION(S) **********/
+
+// This function conditionally replaces the contents of the <main> tag based on the state of the store
+
+/********** EVENT HANDLER FUNCTIONS **********/
+
+// These functions handle events (submit, click, etc)
