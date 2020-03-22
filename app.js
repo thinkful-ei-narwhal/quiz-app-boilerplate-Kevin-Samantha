@@ -57,7 +57,7 @@ let STORE = {
       ],
       correctAnswer: 'Darth Vader',
       correctAnswerImage: 'http://p.favim.com/orig/2018/11/25/luke-skywalker-badass-star-wars-Favim.com-6575843.gif'
-    }
+    },
   ],
   quizStarted: false,
   questionNumber: 0,
@@ -167,7 +167,7 @@ function generateQuestionPage() {
   return `
     <div class = 'question-page'>
       <header class = question-status>
-        <h2 class = 'question-number'>Question Number 1 Out Of 5</h2>
+        <h2 class = 'question-number'>Question Number ${STORE.questionNumber} Out Of ${STORE.questions.length}</h2>
         <section class = 'correct/incorrect'>
           <h3 class = 'correct'>Correct: #</h3>
           <h3 class = 'incorrect'>Incorrect: #</h3>
@@ -175,21 +175,23 @@ function generateQuestionPage() {
       </header>
       <p class = 'question'>Example Question</p>
       
-      <section class = 'answer-options'>
-        <input type="radio" id="choice1" name="answer" value="choice1">
-        <label for="choice1">Choice 1</label>
+      <form class = "questions" action="">
+        <section class = 'answer-options'>
+          <input type="radio" id="choice1" name="answer" value="choice1">
+          <label for="choice1">Choice 1</label>
 
-        <input type="radio" id="choice2" name="answer" value="choice2">
-        <label for="choice2">Choice 2</label>
+          <input type="radio" id="choice2" name="answer" value="choice2">
+          <label for="choice2">Choice 2</label>
 
-        <input type="radio" id="choice3" name="answer" value="choice3">
-        <label for="choice3">Choice 3</label>
+          <input type="radio" id="choice3" name="answer" value="choice3">
+          <label for="choice3">Choice 3</label>
 
-        <input type="radio" id="choice4" name="answer" value="choice4">
-        <label for="choice4">Choice 4</label>
-      </section>
+          <input type="radio" id="choice4" name="answer" value="choice4">
+          <label for="choice4">Choice 4</label>
+        </section>
 
-      <button type="button">Check Answer</button>
+        <button class ="check-answer" type="submit">Check Answer</button>
+      </form>
     </div>`;
 }
 
@@ -198,7 +200,7 @@ function generateQuestionPage() {
 // This block defines the event handlers ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function handleStartButton() {
-  $('.start-page').on('click', event => {
+  $('.start-page').on('click', 'button', event => {
     event.preventDefault();
     STORE.quizStarted = true;
     STORE.questionNumber ++;
@@ -208,9 +210,9 @@ function handleStartButton() {
 }
 
 function handleCheckAnswer() {
-  $('.question-page').on('click', event => {
+  $('.questions').on('submit', event => {
     event.preventDefault();
-    let chosenAnswer = $('input[name="genderS"]:checked').val();
+    // let chosenAnswer = $('input[name="genderS"]:checked').val();
     console.log(STORE);
   });
 }
