@@ -61,45 +61,23 @@ let STORE = {
   ],
   quizStarted: false,
   questionNumber: 0,
-  score: 0,
+  correct: 0,
+  incorrect: 0,
+  chosenAnswer: '',
   checkAnswer: '',
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//This section defines functions called by the HTML generator functions ----------------------------------------------------------------------------------------------------------------------------------------
 
-function renderScore() {
-  // Render the number of correct and incorrect numbers based on score in the STORE.
+function generateQuestions(answerChoices) {
+  let choices = answerChoices.map(answerOption => `<input type="radio" id="${answerOption}" name="answer" value="${answerOption}">
+  <label for="${answerOption}">${answerOption}</label>`);
+  return choices.join(' ');
 }
 
-function updateScore() {
-  // Update score in the STORE based on the compareAnswers function.
-}
-
-function renderQuestionNumber() {
-  // Render the question number based on questionNumber in the STORE
-}
-
-function updateQuestionNumber() {
-  // Listen for click event to update questionNumber in the STORE.
-}
-
-function updateCurrentCorrectAnswer() {
-}
-
-function updateCurrentAnswer() {
-  // Change currentAnswer in the STORE.
-}
-
-function compareAnswers() {
-  // Compare the Call either the renderCorrectPage function or the renderIncorrectPage.
-  // Call the updateScore function.
-}
-
-function displayCorrectAnswer() {
-}
-
-
-// These functions supply the html for the pages ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// This section defines functions that supply the html for the pages -------------------------------------------------------------------------------------------------------------------------------------------
 
 function generateStartPage() {
   console.log('renderStartPage ran');
@@ -109,7 +87,7 @@ function generateStartPage() {
         <h1>It's Movie Trivia Time!</h1>
         <h2>Are You Ready?</h2>
       </section>
-      <button type="button">Let's Go!</button>
+      <button class = "start" type="button">Let's Go!</button>
     </div>`;
 }
 
@@ -120,11 +98,11 @@ function generateCorrectPage() {
       <img class = 'correct-image' src="img.jpg" alt="congratulatory-image">
 
       <section class = 'correct/incorrect'>
-        <h3 class = 'correct'>Correct: #</h3>
-        <h3 class = 'incorrect'>Incorrect: #</h3>
+        <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
+        <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
       </section>
 
-      <button type="button">Next Question Please!</button>
+      <button class = "next-question" type="button">Next Question Please!</button>
     </div>`;
 }
 
@@ -135,16 +113,16 @@ function generateIncorrectPage() {
       <img class = 'incorrect-image' src="img.jpg" alt="image-of-failure">
 
       <section class = correctAnswer>
-        <p>You answered ______</p>
-        <p>The correct answer was _______</p>
+        <p>You answered ${STORE.chosenAnswer}</p>
+        <p>The correct answer was ${STORE.questions[STORE.questionNumber - 1].correctAnswer}</p>
       </section>
 
       <section class = 'correct/incorrect'>
-        <h3 class = 'correct'>Correct: #</h3>
-        <h3 class = 'incorrect'>Incorrect: #</h3>
+        <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
+        <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
       </section>
 
-      <button type="button">Next Question Please!</button>
+      <button class = "next-question" type="button">Next Question Please!</button>
     </div>`;
 }
 
@@ -155,11 +133,11 @@ function generateFinishPage() {
       
       <section class = 'results'>
         <h3>Results:</h3>
-        <h4 class = 'correct'>Correct: #</h4>
-        <h4 class = 'incorrect'>Incorrect: #</h4>
+        <h4 class = 'correct'>Correct: ${STORE.correct}</h4>
+        <h4 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h4>
       </section>
 
-      <button type="button">Let's Go Again!</button>
+      <button class = "restart" type="button">Let's Go Again!</button>
     </div>`;
 }
 
@@ -169,64 +147,76 @@ function generateQuestionPage() {
       <header class = question-status>
         <h2 class = 'question-number'>Question Number ${STORE.questionNumber} Out Of ${STORE.questions.length}</h2>
         <section class = 'correct/incorrect'>
-          <h3 class = 'correct'>Correct: #</h3>
-          <h3 class = 'incorrect'>Incorrect: #</h3>
+          <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
+          <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
         </section>
       </header>
-      <p class = 'question'>Example Question</p>
+      <p class = 'question'>${STORE.questions[STORE.questionNumber - 1].question}</p>
       
       <form class = "questions" action="">
         <section class = 'answer-options'>
-          <input type="radio" id="choice1" name="answer" value="choice1">
-          <label for="choice1">Choice 1</label>
-
-          <input type="radio" id="choice2" name="answer" value="choice2">
-          <label for="choice2">Choice 2</label>
-
-          <input type="radio" id="choice3" name="answer" value="choice3">
-          <label for="choice3">Choice 3</label>
-
-          <input type="radio" id="choice4" name="answer" value="choice4">
-          <label for="choice4">Choice 4</label>
+          ${generateQuestions(STORE.questions[STORE.questionNumber -1].answers)}
         </section>
 
-        <button class ="check-answer" type="submit">Check Answer</button>
+        <button class ="submit-answer" type="submit">Check Answer</button>
       </form>
     </div>`;
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// This section defines miscellaneous functions called in the event listeners -----------------------------------------------------------------------------------------------------------------------------------
 
-// This block defines the event handlers ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function compareAnswers() {
+  if (STORE.chosenAnswer === STORE.questions[STORE.questionNumber - 1].correctAnswer) {
+    STORE.checkAnswer = 'correct';
+  } else {
+    STORE.checkAnswer = 'incorrect';
+  }
+  return STORE.checkAnswer;
+}
+
+function updateScore(correctIncorrect) {
+  if (correctIncorrect === 'correct') {
+    STORE.correct ++;
+  } else {
+    STORE.incorrect ++;
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// This section defines the event handlers ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function handleStartButton() {
-  $('.start-page').on('click', 'button', event => {
+  $('body').on('click', '.start', event => {
     event.preventDefault();
     STORE.quizStarted = true;
     STORE.questionNumber ++;
-    console.log('handleStartButton ran');
     renderQuiz();
   });
 }
 
 function handleCheckAnswer() {
-  $('.questions').on('submit', event => {
+  $('body').on('submit', event => {
     event.preventDefault();
-    // let chosenAnswer = $('input[name="genderS"]:checked').val();
-    console.log(STORE);
+    STORE.chosenAnswer = $('input[name="answer"]:checked').val();
+    updateScore(compareAnswers());
+    renderQuiz();
   });
 }
 
 function handleNextQuestion() {
-  $('.check-answer').on('submit', event => {
+  $('body').on('click', '.next-question', event => {
     event.preventDefault();
+    STORE.questionNumber ++;
+    STORE.chosenAnswer = '';
+    STORE.checkAnswer = '';
     console.log('handleNextQuestion ran');
     renderQuiz();
   });
 }
 
 function handleGoAgain() {
-  $('.finish-page').on('click', event => {
+  $('body').on('click', '.restart', event => {
     event.preventDefault();
     console.log('handleGoAgain ran');
     STORE.quizStarted = false;
@@ -237,8 +227,7 @@ function handleGoAgain() {
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// This block renders the page and primes the event handlers --------------------------------------------------------------------------------------------------------------------------------------------------
+// This section renders the page and primes the event handlers --------------------------------------------------------------------------------------------------------------------------------------------------
 
 function renderQuiz() {
   console.log(STORE);
@@ -251,7 +240,7 @@ function renderQuiz() {
   } else if (STORE.checkAnswer === 'incorrect') {
     $('body').html(generateIncorrectPage());
     return;
-  } else if (STORE.questionNumber === STORE.questions.length) {
+  } else if (STORE.questionNumber > STORE.questions.length) {
     $('body').html(generateFinishPage());
     return;
   } else {
