@@ -81,18 +81,18 @@ function generateQuestions(answerChoices) {
 function generateStartPage() {
   console.log('renderStartPage ran');
   return `
-    <div class = 'start-page'>
+    <main class = 'start-page'>
       <section class = 'intro'>
         <h1>It's Movie Trivia Time!</h1>
         <h2>Are You Ready?</h2>
       </section>
       <button class = "start" type="button">Let's Go!</button>
-    </div>`;
+    </main>`;
 }
 
 function generateCorrectPage() {
   return `
-    <div class = 'check-answer' id = 'correct-page'>
+    <main class = 'check-answer' id = 'correct-page'>
       <h2>Correct!</h2>
       <img class = 'correct-image' src="${STORE.questions[STORE.questionNumber - 1].correctAnswerImage}" alt="congratulatory-image">
 
@@ -102,12 +102,12 @@ function generateCorrectPage() {
       </section>
 
       <button class = "next-question" type="button">Next Question Please!</button>
-    </div>`;
+    </main>`;
 }
 
 function generateIncorrectPage() {
   return `
-    <div class = 'check-answer' id = 'incorrect-page'>
+    <main class = 'check-answer' id = 'incorrect-page'>
       <h2>Incorrect!</h2>
       <img class = 'incorrect-image' src="${STORE.questions[STORE.questionNumber - 1].correctAnswerImage}" alt="image-of-failure">
 
@@ -122,12 +122,12 @@ function generateIncorrectPage() {
       </section>
 
       <button class = "next-question" type="button">Next Question Please!</button>
-    </div>`;
+    </main>`;
 }
 
 function generateFinishPage() {
   return `
-    <div class = 'finish-page'>
+    <main class = 'finish-page'>
       <h1>You Finished!</h1>
       
       <section class = 'results'>
@@ -137,7 +137,7 @@ function generateFinishPage() {
       </section>
 
       <button class = "restart" type="button">Let's Go Again!</button>
-    </div>`;
+    </main>`;
 }
 
 function generateQuestionPage() {

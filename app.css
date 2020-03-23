@@ -24,8 +24,15 @@ body {
   margin-top: 50px;
 }
 
+main {
+  margin: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
 div {
   margin: 10px;
+  margin-bottom: 30px;
   padding: 10px;
 }
 
