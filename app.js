@@ -23,7 +23,6 @@ let STORE = {
       ],
       correctAnswer: 'Top Gun',
       correctAnswerImage: 'https://i0.wp.com/theaviationist.com/wp-content/uploads/2018/06/Top_Gun_2_40.jpg?fit=1024%2C799&ssl=1'
-
     },
     {
       question: 'At the end of Avengers: Endgame, what did Tony Stark say in response to Thanos’ line, “I am inevitable”?',
@@ -34,7 +33,7 @@ let STORE = {
         '“I’m Iron Man”'
       ],
       correctAnswer: '“I’m Iron Man”',
-      correctAnswerImage: 'https://lh3.googleusercontent.com/proxy/JEoFvCYl9V-bbrxdqaFhj8zVq6LTI743QgNPWlzHW5O-yYyxdvC6tbMS4bXz2VK4kC23gb0czxTAQ9fpA5jm3-pxRIVez5ps6wKRn3f_R9wVdnsXGDhoNmQxdgaQkBqOOgg_abKUL57kgut_3NRJYwHnG0DQnkezQZvmY-lg1WNTo6nf_uUV5RAfyPb07KooYrTYcGK_4p_SPGX3mI6E'
+      correctAnswerImage: 'https://i.ytimg.com/vi/_anDMGmck-k/maxresdefault.jpg'
     },
     {
       question: 'In 2019, Parasite made Oscar history for being the first foreign language film to ever win the award for Best Picture. What language was it produced in?',
@@ -56,7 +55,7 @@ let STORE = {
         'Mace Windu'
       ],
       correctAnswer: 'Darth Vader',
-      correctAnswerImage: 'http://p.favim.com/orig/2018/11/25/luke-skywalker-badass-star-wars-Favim.com-6575843.gif'
+      correctAnswerImage: 'https://i.stack.imgur.com/1O3ba.jpg'
     },
   ],
   quizStarted: false,
@@ -71,8 +70,8 @@ let STORE = {
 //This section defines functions called by the HTML generator functions ----------------------------------------------------------------------------------------------------------------------------------------
 
 function generateQuestions(answerChoices) {
-  let choices = answerChoices.map(answerOption => `<input type="radio" id="${answerOption}" name="answer" value="${answerOption}">
-  <label for="${answerOption}">${answerOption}</label>`);
+  let choices = answerChoices.map(answerOption => `<div class = "choices"><input type="radio" id="${answerOption}" name="answer" value="${answerOption}">
+  <label for="${answerOption}">${answerOption}</label></div>`);
   return choices.join(' ');
 }
 
@@ -95,9 +94,9 @@ function generateCorrectPage() {
   return `
     <div class = 'check-answer' id = 'correct-page'>
       <h2>Correct!</h2>
-      <img class = 'correct-image' src="img.jpg" alt="congratulatory-image">
+      <img class = 'correct-image' src="${STORE.questions[STORE.questionNumber - 1].correctAnswerImage}" alt="congratulatory-image">
 
-      <section class = 'correct/incorrect'>
+      <section class = 'correct-incorrect'>
         <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
         <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
       </section>
@@ -110,14 +109,14 @@ function generateIncorrectPage() {
   return `
     <div class = 'check-answer' id = 'incorrect-page'>
       <h2>Incorrect!</h2>
-      <img class = 'incorrect-image' src="img.jpg" alt="image-of-failure">
+      <img class = 'incorrect-image' src="${STORE.questions[STORE.questionNumber - 1].correctAnswerImage}" alt="image-of-failure">
 
       <section class = correctAnswer>
-        <p>You answered ${STORE.chosenAnswer}</p>
-        <p>The correct answer was ${STORE.questions[STORE.questionNumber - 1].correctAnswer}</p>
+        <p>You answered: ${STORE.chosenAnswer}</p>
+        <p>The correct answer was: ${STORE.questions[STORE.questionNumber - 1].correctAnswer}</p>
       </section>
 
-      <section class = 'correct/incorrect'>
+      <section class = 'correct-incorrect'>
         <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
         <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
       </section>
@@ -129,7 +128,7 @@ function generateIncorrectPage() {
 function generateFinishPage() {
   return `
     <div class = 'finish-page'>
-      <h2>You Finished!</h2>
+      <h1>You Finished!</h1>
       
       <section class = 'results'>
         <h3>Results:</h3>
@@ -145,8 +144,8 @@ function generateQuestionPage() {
   return `
     <div class = 'question-page'>
       <header class = question-status>
-        <h2 class = 'question-number'>Question Number ${STORE.questionNumber} Out Of ${STORE.questions.length}</h2>
-        <section class = 'correct/incorrect'>
+        <h2 class = 'question-number'>Question ${STORE.questionNumber} / ${STORE.questions.length}</h2>
+        <section class = 'correct-incorrect'>
           <h3 class = 'correct'>Correct: ${STORE.correct}</h3>
           <h3 class = 'incorrect'>Incorrect: ${STORE.incorrect}</h3>
         </section>
@@ -222,6 +221,8 @@ function handleGoAgain() {
     STORE.quizStarted = false;
     STORE.questionNumber = 0;
     STORE.score = 0;
+    STORE.incorrect = 0;
+    STORE.correct = 0;
     renderQuiz();
   });
 }
