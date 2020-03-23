@@ -168,6 +168,8 @@ function generateQuestionPage() {
 function compareAnswers() {
   if (STORE.chosenAnswer === STORE.questions[STORE.questionNumber - 1].correctAnswer) {
     STORE.checkAnswer = 'correct';
+  } else if (STORE.chosenAnswer === undefined) {
+    STORE.checkAnswer = '';
   } else {
     STORE.checkAnswer = 'incorrect';
   }
@@ -177,8 +179,10 @@ function compareAnswers() {
 function updateScore(correctIncorrect) {
   if (correctIncorrect === 'correct') {
     STORE.correct ++;
-  } else {
+  } else if (correctIncorrect === 'incorrect') {
     STORE.incorrect ++;
+  } else {
+    return;
   }
 }
 
